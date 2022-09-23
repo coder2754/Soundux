@@ -34,7 +34,6 @@ namespace Soundux::Objects
 
 
         auto rtn = std::string(ExePath()) + "\\Soundux\\config.json";
-        free(buffer);
 
         return rtn;
 #endif
