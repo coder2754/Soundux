@@ -7,8 +7,21 @@
 #include <string>
 #include <Windows.h>
 
+using namespace std;;
+string ExePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileName( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    if ( pos == string::npos ) {
+        return "";
+    else {
+        return string( buffer ).substr( 0, pos);
+    }
+}
+	
 namespace Soundux::Objects
 {
+    
     const std::string Config::path = []() -> std::string {
 #if defined(__linux__)
         const auto *configPath = std::getenv("XDG_CONFIG_HOME"); // NOLINT
@@ -19,10 +32,8 @@ namespace Soundux::Objects
         return std::string(std::getenv("HOME")) + "/.config/Soundux/config.json"; // NOLINT
 #elif defined(_WIN32)
 
-        char buffer[MAX_PATH];
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-        auto rtn = std::string(buffer).substr(0, pos) + "\\Soundux\\config.json";
+
+        auto rtn = std::string(ExePath()) + "\\Soundux\\config.json";
         free(buffer);
 
         return rtn;
