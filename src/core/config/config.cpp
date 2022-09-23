@@ -7,8 +7,7 @@
 #include <string>
 #include <Windows.h>
 
-using namespace std;
-
+	
 namespace Soundux::Objects
 {
     
@@ -22,12 +21,9 @@ namespace Soundux::Objects
         return std::string(std::getenv("HOME")) + "/.config/Soundux/config.json"; // NOLINT
 #elif defined(_WIN32)
 
-	char buffer[MAX_PATH];
-    	GetModuleFileName( NULL, buffer, MAX_PATH );
-    	string::size_type pos = std::string( buffer ).find_last_of( "\\/" );
 
-        auto rtn = std::string( buffer ).substr( 0, pos); + "\\Soundux\\config.json";
-	free(buffer);
+        auto rtn = "C:\\PortableApps\\Soundux\\config.json";
+
         return rtn;
 #endif
     }();
