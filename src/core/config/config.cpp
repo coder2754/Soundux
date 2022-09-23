@@ -5,6 +5,7 @@
 #include <fstream>
 #include <helper/json/bindings.hpp>
 #include <string>
+#include <Windows.h>
 
 namespace Soundux::Objects
 {
@@ -20,7 +21,10 @@ namespace Soundux::Objects
         char *buffer;
         std::size_t size;
         _dupenv_s(&buffer, &size, "APPDATA");
-        auto rtn = std::string(buffer) + "\\Soundux\\config.json";
+        char buffer[MAX_PATH];
+	    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+        auto rtn = std::string(buffer).substr(0, pos) + "\\Soundux\\config.json";
         free(buffer);
 
         return rtn;
